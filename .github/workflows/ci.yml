@@ -13,7 +13,7 @@ jobs:
       - name: Use Nodejs
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: "16.x"
       - run: npm ci
       - run: npm run format:check
       - run: npm test -- --coverage
@@ -27,9 +27,9 @@ jobs:
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Deploy to staging
-        if: github.event_name == 'push'
-        run: npx surge --project ./build --domain towering-steam.surge.sh/
+      - name: Deploy to production
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: npx surge --project ./build --domain nifty-duck.surge.sh/
         env:
           SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
           SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
